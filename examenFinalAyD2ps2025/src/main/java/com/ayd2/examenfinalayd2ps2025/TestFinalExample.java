@@ -1,10 +1,14 @@
 package com.ayd2.examenfinalayd2ps2025;
 import com.ayd2.examenfinalayd2ps2025.FinalExample.Order;
+import com.ayd2.examenfinalayd2ps2025.FinalExample.OrderBuilder;
 import com.ayd2.examenfinalayd2ps2025.FinalExample.ReportGenerator;
+import com.ayd2.examenfinalayd2ps2025.FinalExample.User;
+import com.ayd2.examenfinalayd2ps2025.FinalExample.UserBuilder;
 
 public class TestFinalExample {
     final FinalExample finalExampleMock = new FinalExample();
-    final Order orderMock = finalExampleMock.new Order();
+    final OrderBuilder orderBuilderMock = finalExampleMock.new OrderBuilder();
+    final UserBuilder userBuilderMock = finalExampleMock.new UserBuilder();
     final ReportGenerator reportGeneratorMock = finalExampleMock.new ReportGenerator();
 
     final String USER_NAME = "Fernando";
@@ -34,28 +38,74 @@ public class TestFinalExample {
     final double TOTAL = 10.5;
 
     public void testCreateUser_Exito() {
-        String response = finalExampleMock.createUser(USER_NAME, USER_EMAIL, USER_PHONE, USER_ADDRESS, USER_CITY, USER_ZIP);
-        assert response.equals("User created: " + USER_NAME);
+        userBuilderMock.setName(USER_NAME);
+        userBuilderMock.setEmail(USER_EMAIL);
+        userBuilderMock.setPhone(USER_PHONE);
+        userBuilderMock.setAddress(USER_ADDRESS);
+        userBuilderMock.setCity(USER_CITY);
+        userBuilderMock.setZip(USER_ZIP);
+        User createdUser = userBuilderMock.getResult();
+        assert createdUser.getName().equals("User created: " + USER_NAME);
     }
 
     public void testCreateUser_FallaNombreNull() {
-        String response = finalExampleMock.createUser(null, USER_EMAIL, USER_PHONE, USER_ADDRESS, USER_CITY, USER_ZIP);
-        assert response.equals("Name cannot be empty");
+        userBuilderMock.setName(null);
+        userBuilderMock.setEmail(USER_EMAIL);
+        userBuilderMock.setPhone(USER_PHONE);
+        userBuilderMock.setAddress(USER_ADDRESS);
+        userBuilderMock.setCity(USER_CITY);
+        userBuilderMock.setZip(USER_ZIP);
+        try {
+            User createdUser = userBuilderMock.getResult();
+            assert false;
+        } catch (Exception e) {
+            assert e.getMessage().equals("Name cannot be empty");
+        }
     }
 
     public void testCreateUser_FallaNombreEmpty() {
-        String response = finalExampleMock.createUser("", USER_EMAIL, USER_PHONE, USER_ADDRESS, USER_CITY, USER_ZIP);
-        assert response.equals("Name cannot be empty");
+        userBuilderMock.setName("");
+        userBuilderMock.setEmail(USER_EMAIL);
+        userBuilderMock.setPhone(USER_PHONE);
+        userBuilderMock.setAddress(USER_ADDRESS);
+        userBuilderMock.setCity(USER_CITY);
+        userBuilderMock.setZip(USER_ZIP);
+        try {
+            User createdUser = userBuilderMock.getResult();
+            assert false;
+        } catch (Exception e) {
+            assert e.getMessage().equals("Name cannot be empty");
+        }
     }
 
     public void testCreateUser_FallaEmailNull() {
-        String response = finalExampleMock.createUser(USER_NAME, null, USER_PHONE, USER_ADDRESS, USER_CITY, USER_ZIP);
-        assert response.equals("Invalid email");
+        userBuilderMock.setName(USER_NAME);
+        userBuilderMock.setEmail(null);
+        userBuilderMock.setPhone(USER_PHONE);
+        userBuilderMock.setAddress(USER_ADDRESS);
+        userBuilderMock.setCity(USER_CITY);
+        userBuilderMock.setZip(USER_ZIP);
+        try {
+            User createdUser = userBuilderMock.getResult();
+            assert false;
+        } catch (Exception e) {
+            assert e.getMessage().equals("Invalid email");
+        }
     }
 
     public void testCreateUser_FallaEmailInvalido() {
-        String response = finalExampleMock.createUser(USER_NAME, USER_EMAIL_INVALID, USER_PHONE, USER_ADDRESS, USER_CITY, USER_ZIP);
-        assert response.equals("Invalid email");
+        userBuilderMock.setName(USER_NAME);
+        userBuilderMock.setEmail(USER_EMAIL_INVALID);
+        userBuilderMock.setPhone(USER_PHONE);
+        userBuilderMock.setAddress(USER_ADDRESS);
+        userBuilderMock.setCity(USER_CITY);
+        userBuilderMock.setZip(USER_ZIP);
+        try {
+            User createdUser = userBuilderMock.getResult();
+            assert false;
+        } catch (Exception e) {
+            assert e.getMessage().equals("Invalid email");
+        }
     }
 
     public void testCalculateArea_ExitoCircle() {
